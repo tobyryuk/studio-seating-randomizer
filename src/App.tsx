@@ -134,7 +134,7 @@ function App() {
                 <DialogHeader>
                   <DialogTitle>Randomized Seating</DialogTitle>
                   <DialogDescription>
-                    Selected names are not in the backrooms
+                    Selected names are not in the backrooms. You can close this dialog and randomize again.
                   </DialogDescription>
                 </DialogHeader>
                 {randomizedGroups[0].length > 0 && randomizedGroups[1].length > 0 && (
