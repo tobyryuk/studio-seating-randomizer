@@ -93,7 +93,7 @@ function App() {
 
     const filteredNames = names.filter((name) => !selectedNames.includes(name))
     const shuffledNames = shuffleArray(filteredNames)
-    const groupOne = [selectedNames, shuffledNames.slice(0, 4)].flat()
+    const groupOne = shuffleArray([selectedNames, shuffledNames.slice(0, 4)].flat())
     const groupTwo = [shuffledNames.slice(4, 12)].flat()
 
     setRandomizedGroups([groupOne, groupTwo])
@@ -141,6 +141,7 @@ function App() {
                   <Table>
                     <TableHeader>
                       <TableRow>
+                        <TableHead>Seat Nr.</TableHead>
                         <TableHead>Brightside</TableHead>
                         <TableHead>Backrooms</TableHead>
                       </TableRow>
@@ -148,6 +149,7 @@ function App() {
                     <TableBody>
                       {randomizedGroups[0].map((randomPerson, index) => (
                         <TableRow key={index}>
+                          <TableCell><b>{index + 1}</b></TableCell>
                           <TableCell>{randomPerson}</TableCell>
                           <TableCell>{index <= 3 && randomizedGroups[1][index]}</TableCell>
                         </TableRow>
