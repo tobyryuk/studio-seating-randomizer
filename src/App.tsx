@@ -32,6 +32,9 @@ import { useToast } from "@/components/ui/use-toast"
 import { useState } from "react"
 import { shuffleArray } from "./lib/utils"
 
+const TOTAL_AMOUNT_OF_NAMES_NEEDED = 13
+const TOTAL_AMOUNT_OF_BACKROOM_SEATS = 4
+
 function App() {
   const [name, setName] = useState<string>('')
   const [names, setNames] = useState<string[]>([])
@@ -60,11 +63,11 @@ function App() {
   }
 
   const onRandomize = () => {
-    if (names.length !== 12) {
-      if (selectedNames.length !== 4) {
+    if (names.length !== TOTAL_AMOUNT_OF_NAMES_NEEDED) {
+      if (selectedNames.length !== TOTAL_AMOUNT_OF_BACKROOM_SEATS) {
         toast({
           title: "Failed to randomize",
-          description: "Need 12 names and 4 selected",
+          description: `Need ${TOTAL_AMOUNT_OF_NAMES_NEEDED} names and ${TOTAL_AMOUNT_OF_BACKROOM_SEATS} selected`,
           action: (
             <ToastAction altText="Dismiss">Dismiss</ToastAction>
           ),
@@ -74,16 +77,16 @@ function App() {
 
       toast({
         title: "Failed to randomize",
-        description: "Need 12 names",
+        description: `Need ${TOTAL_AMOUNT_OF_NAMES_NEEDED} names`,
         action: (
           <ToastAction altText="Dismiss">Dismiss</ToastAction>
         ),
       })
       return
-    } else if (selectedNames.length !== 4) {
+    } else if (selectedNames.length !== TOTAL_AMOUNT_OF_BACKROOM_SEATS) {
       toast({
         title: "Failed to randomize",
-        description: "Need 4 selected names",
+        description: `Need ${TOTAL_AMOUNT_OF_BACKROOM_SEATS}} selected names`,
         action: (
           <ToastAction altText="Dismiss">Dismiss</ToastAction>
         ),
@@ -93,8 +96,8 @@ function App() {
 
     const filteredNames = names.filter((name) => !selectedNames.includes(name))
     const shuffledNames = shuffleArray(filteredNames)
-    const groupOne = shuffleArray([selectedNames, shuffledNames.slice(0, 4)].flat())
-    const groupTwo = [shuffledNames.slice(4, 12)].flat()
+    const groupOne = shuffleArray([selectedNames, shuffledNames.slice(0, TOTAL_AMOUNT_OF_BACKROOM_SEATS)].flat())
+    const groupTwo = [shuffledNames.slice(TOTAL_AMOUNT_OF_BACKROOM_SEATS, TOTAL_AMOUNT_OF_NAMES_NEEDED)].flat()
 
     setRandomizedGroups([groupOne, groupTwo])
   }
@@ -105,8 +108,8 @@ function App() {
         <CardHeader>
           <CardTitle>Studio Seating Randomizer</CardTitle>
           <CardDescription>
-            Add 12 people to the list <br/>
-            Check 4 names of the people who most recently was seated in the back  <br/>
+            Add {TOTAL_AMOUNT_OF_NAMES_NEEDED} people to the list <br/>
+            Check {TOTAL_AMOUNT_OF_BACKROOM_SEATS} names of the people who most recently was seated in the back  <br/>
             Click Randomize
           </CardDescription>
         </CardHeader>
@@ -125,7 +128,7 @@ function App() {
           ))}
           </div>
           <Separator className="my-8" />
-          {names.length === 12 && selectedNames.length === 4 && (
+          {names.length === TOTAL_AMOUNT_OF_NAMES_NEEDED && selectedNames.length === TOTAL_AMOUNT_OF_BACKROOM_SEATS && (
             <Dialog>
               <DialogTrigger asChild>
                 <Button className="w-1/4 float-right mb-4" onClick={onRandomize}>Randomize</Button>
@@ -151,7 +154,7 @@ function App() {
                         <TableRow key={index}>
                           <TableCell><b>{index + 1}</b></TableCell>
                           <TableCell>{randomPerson}</TableCell>
-                          <TableCell>{index <= 3 && randomizedGroups[1][index]}</TableCell>
+                          <TableCell>{index <= (TOTAL_AMOUNT_OF_BACKROOM_SEATS - 1) && randomizedGroups[1][index]}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -161,7 +164,7 @@ function App() {
             </Dialog>
           )}
     
-          {(names.length !== 12 || selectedNames.length !== 4) && (
+          {(names.length !== TOTAL_AMOUNT_OF_NAMES_NEEDED || selectedNames.length !== TOTAL_AMOUNT_OF_BACKROOM_SEATS) && (
             <Button className="w-1/4 float-right mb-4" onClick={onRandomize}>Randomize</Button>
           )}
         </CardContent>
